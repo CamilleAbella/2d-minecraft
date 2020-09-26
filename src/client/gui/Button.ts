@@ -10,6 +10,8 @@ export default class Button {
 	public borderPadding: number = 2;
 	public container: PIXI.Container;
 	public color: Color = new Color(1, 1, 1);
+
+	// ghom todo: replace graphics and filters by a uniq png button sprite
 	public sprite: PIXI.Graphics;
 	private border = new PIXIFilters.OutlineFilter(2, this.borderColor.toNumber(), 4);
 
@@ -70,6 +72,8 @@ export default class Button {
 	public showBorder() {
 		this.border.color = this.borderColor.toNumber();
 		this.border.enabled = true;
+
+		// ghom todo: remove
 		this.container.filters = [this.border];
 	}
 
