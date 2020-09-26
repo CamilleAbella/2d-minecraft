@@ -22,7 +22,8 @@ export default class TilePlacementGui extends Gui {
 		this.blockSelected.zIndex = 1000;
 		this.blockSelected.texture = this.tilePreview.texture;
 
-		{// ghom todo: replace filter by a png rect sprite
+		{
+			// ghom todo: replace filter by a png rect sprite
 			const outlineFilter: PIXI.filters.OutlineFilter = new OutlineFilter(10, new Color(1, 1, 1).toNumber());
 
 			outlineFilter.enabled = true;

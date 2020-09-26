@@ -20,8 +20,12 @@ export default class Chunk implements IDisplayable {
 	public set displayed(displayed: boolean) {
 		if (this._displayed !== displayed) {
 			this._displayed = displayed;
-			this.tiles.forEach((t) => {
-				t.sprite.visible = displayed;
+			this.tiles.forEach((t, k) => {
+				if (displayed) this.container.addChild(t.sprite);
+				else {
+					this.container.removeChild(t.sprite);
+					this.tiles.delete(k);
+				}
 			});
 		}
 	}
