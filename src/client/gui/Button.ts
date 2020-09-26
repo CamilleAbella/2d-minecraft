@@ -49,13 +49,13 @@ export default class Button {
 		});
 
 		this.container.on('mouseover', () => {
-			game.tilePlacementGui.hide();
+			game.tilePlacementGui.displayed = false;
 		});
 
 		this.container.on('mouseout', () => {
 			this.color = new Color(1, 1, 1);
 			this.drawButton();
-			game.tilePlacementGui.show();
+			game.tilePlacementGui.displayed = true;
 		});
 	}
 
