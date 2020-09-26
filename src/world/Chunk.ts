@@ -1,6 +1,5 @@
 import AbstractBlock from '../blocks/AbstractBlock';
 import Blocks from '../blocks/Blocks';
-import IShowable from '../client/IShowable';
 import Tile from '../client/renderer/Tile';
 import { game } from '../main';
 import PIXI from '../PIXI';
@@ -9,24 +8,22 @@ import ChunkPosition from '../utils/ChunkPosition';
 import Collection from '../utils/Collection';
 import Position from '../utils/Position';
 import TilePosition from '../utils/TilePosition';
+import IDisplayable from '../utils/IDisplayable';
 
-export default class Chunk implements IShowable {
-	public isShow: boolean;
+export default class Chunk implements IDisplayable {
+	private _displayed: boolean;
 
-	public show(): void {
-		if (this.isShow) return;
-		this.isShow = true;
-		this.tiles.forEach((t) => {
-			t.sprite.visible = true;
-		});
+	public get displayed(): boolean {
+		return this._displayed;
 	}
 
-	public hide(): void {
-		if (!this.isShow) return;
-		this.isShow = false;
-		this.tiles.forEach((t) => {
-			t.sprite.visible = false;
-		});
+	public set displayed(displayed: boolean) {
+		if (this._displayed !== displayed) {
+			this._displayed = displayed;
+			this.tiles.forEach((t) => {
+				t.sprite.visible = displayed;
+			});
+		}
 	}
 
 	public readonly tiles: Collection<StringTilePosition, Tile> = new Collection<StringTilePosition, Tile>();
@@ -63,16 +60,18 @@ export default class Chunk implements IShowable {
 
 	public update(): void {
 		for (const tile of this.tiles.values()) {
-			game.app.stage.removeChild(tile.getAsSprite());
-			if (this.isShow) {
-				game.app.stage.addChild(tile.getAsSprite());
+			const tileSprite = tile.getAsSprite();
+			if (this.displayed && !game.app.stage.children.includes(tileSprite)) {
+				game.app.stage.addChild(tileSprite);
+			} else if (!this.displayed && game.app.stage.children.includes(tileSprite)) {
+				game.app.stage.removeChild(tileSprite);
 			}
 			tile.update();
 		}
 	}
 
 	public updateRendering(): void {
-		this.canHide() ? this.hide() : this.show();
+		this.displayed = !this.canHide();
 	}
 
 	public fill(block: AbstractBlock): void {

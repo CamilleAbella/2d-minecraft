@@ -109,9 +109,9 @@ export default class Game {
 	}
 
 	public postInit() {
-		this.mainGui.show();
-		this.debugGui.show();
-		this.tilePlacementGui.show();
+		this.mainGui.displayed = true;
+		this.debugGui.displayed = true;
+		this.tilePlacementGui.displayed = true;
 
 		this.player.eventEmitter.on('changeChunk', (position: ChunkPosition) => {
 			this.world.ensureChunkAt(position);
@@ -130,7 +130,6 @@ export default class Game {
 		this.player.update();
 		this.debugGui.update();
 		this.mainGui.update();
-		//noinspection JSIgnoredPromiseFromCall
 		this.world.update();
 	}
 }

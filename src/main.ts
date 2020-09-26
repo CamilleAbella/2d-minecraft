@@ -32,7 +32,6 @@ game.init();
 app.ticker.add(() => {
 	if (game.loaded) {
 		game.update();
-		app.stage.sortChildren();
 	}
 });
 

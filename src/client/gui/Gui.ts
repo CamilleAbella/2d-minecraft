@@ -1,19 +1,20 @@
 import PIXI from '../../PIXI';
 import Collection from '../../utils/Collection';
-import IShowable from '../IShowable';
+import IDisplayable from '../../utils/IDisplayable';
 import Sprite from '../renderer/Sprite';
 
-export default class Gui implements IShowable {
-	public isShow: boolean;
+export default class Gui implements IDisplayable {
+	private _displayed: boolean;
 
-	public show(): void {
-		this.isShow = true;
-		this.app.stage.addChild(this.container);
+	public get displayed(): boolean {
+		return this._displayed;
 	}
 
-	public hide(): void {
-		this.isShow = false;
-		this.app.stage.removeChild(this.container);
+	public set displayed(displayed: boolean) {
+		if (this._displayed !== displayed) {
+			this._displayed = displayed;
+			this.app.stage[(displayed ? 'add' : 'remove') + 'Child'](this.container);
+		}
 	}
 
 	private readonly container: PIXI.Container;

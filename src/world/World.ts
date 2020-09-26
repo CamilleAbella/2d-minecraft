@@ -75,9 +75,9 @@ export default class World {
 		this.updateRendering();
 	}
 
-	public async update(): Promise<void> {
+	public update(): void {
 		for (const chunk of this.chunks.values()) {
-			if (chunk.isShow) chunk.update();
+			if (chunk.displayed) chunk.update();
 		}
 	}
 
